@@ -17,7 +17,7 @@ remove_unwanted_packages() {
     local packages_utils=(
         "cups"
     )
-    local small8_packages=(
+    local smpackage_packages=(
         "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq" "luci-app-alist"
         "alist" "opkg" "smartdns" "luci-app-smartdns" "easytier"
     )
@@ -43,9 +43,9 @@ remove_unwanted_packages() {
         fi
     done
 
-    for pkg in "${small8_packages[@]}"; do
-        if [[ -d ./feeds/small8/$pkg ]]; then
-            \rm -rf ./feeds/small8/$pkg
+    for pkg in "${smpackage_packages[@]}"; do
+        if [[ -d ./feeds/smpackage/$pkg ]]; then
+            \rm -rf ./feeds/smpackage/$pkg
         fi
     done
 
@@ -69,8 +69,8 @@ update_golang() {
     fi
 }
 
-install_small8() {
-    ./scripts/feeds install -p small8 -f xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
+install_smpackage() {
+    ./scripts/feeds install -p smpackage -f xray-core xray-plugin dns2tcp dns2socks haproxy hysteria \
         naiveproxy shadowsocks-rust sing-box v2ray-core v2ray-geodata geoview v2ray-plugin \
         tuic-client chinadns-ng ipt2socks tcping trojan-plus simple-obfs shadowsocksr-libev \
         v2dat mosdns luci-app-mosdns adguardhome luci-app-adguardhome ddns-go \
@@ -78,7 +78,7 @@ install_small8() {
         luci-app-quickstart luci-app-istorex luci-app-cloudflarespeedtest netdata luci-app-netdata \
         lucky luci-app-lucky luci-app-openclash luci-app-homeproxy luci-app-amlogic \
         tailscale luci-app-tailscale oaf open-app-filter luci-app-oaf easytier luci-app-easytier \
-        msd_lite luci-app-msd_lite cups luci-app-cupsd
+        msd_lite luci-app-msd_lite cups luci-app-cupsd luci-app-partexp
 }
 
 install_passwall() {
@@ -93,10 +93,10 @@ install_nikki() {
 
 install_fullconenat() {
     if [ ! -d $BUILD_DIR/package/network/utils/fullconenat-nft ]; then
-        ./scripts/feeds install -p small8 -f fullconenat-nft
+        ./scripts/feeds install -p smpackage -f fullconenat-nft
     fi
     if [ ! -d $BUILD_DIR/package/network/utils/fullconenat ]; then
-        ./scripts/feeds install -p small8 -f fullconenat
+        ./scripts/feeds install -p smpackage -f fullconenat
     fi
 }
 
@@ -145,7 +145,7 @@ add_ax6600_led() {
 
 update_homeproxy() {
     local repo_url="https://github.com/immortalwrt/homeproxy.git"
-    local target_dir="$BUILD_DIR/feeds/small8/luci-app-homeproxy"
+    local target_dir="$BUILD_DIR/feeds/smpackage/luci-app-homeproxy"
 
     if [ -d "$target_dir" ]; then
         echo "正在更新 homeproxy..."
@@ -169,7 +169,7 @@ add_timecontrol() {
 }
 
 update_adguardhome() {
-    local adguardhome_dir="$BUILD_DIR/package/feeds/small8/luci-app-adguardhome"
+    local adguardhome_dir="$BUILD_DIR/package/feeds/smpackage/luci-app-adguardhome"
     local repo_url="https://github.com/ZqinKing/luci-app-adguardhome.git"
 
     echo "正在更新 luci-app-adguardhome..."
@@ -183,9 +183,9 @@ update_adguardhome() {
 
 update_lucky() {
     local lucky_repo_url="https://github.com/gdy666/luci-app-lucky.git"
-    local target_small8_dir="$BUILD_DIR/feeds/small8"
-    local lucky_dir="$target_small8_dir/lucky"
-    local luci_app_lucky_dir="$target_small8_dir/luci-app-lucky"
+    local target_smpackage_dir="$BUILD_DIR/feeds/smpackage"
+    local lucky_dir="$target_smpackage_dir/lucky"
+    local luci_app_lucky_dir="$target_smpackage_dir/luci-app-lucky"
 
     if [ ! -d "$lucky_dir" ] || [ ! -d "$luci_app_lucky_dir" ]; then
         echo "Warning: $lucky_dir 或 $luci_app_lucky_dir 不存在，跳过 lucky 源代码更新。" >&2
@@ -219,7 +219,7 @@ update_lucky() {
         echo "luci-app-lucky 和 lucky 源代码更新完成。"
     fi
 
-    local lucky_conf="$BUILD_DIR/feeds/small8/lucky/files/luckyuci"
+    local lucky_conf="$BUILD_DIR/feeds/smpackage/lucky/files/luckyuci"
     if [ -f "$lucky_conf" ]; then
         sed -i "s/option enabled '1'/option enabled '0'/g" "$lucky_conf"
         sed -i "s/option logger '1'/option logger '0'/g" "$lucky_conf"
@@ -232,7 +232,7 @@ update_lucky() {
         return 0
     fi
 
-    local makefile_path="$BUILD_DIR/feeds/small8/lucky/Makefile"
+    local makefile_path="$BUILD_DIR/feeds/smpackage/lucky/Makefile"
     if [ ! -f "$makefile_path" ]; then
         echo "Warning: lucky Makefile not found. Skipping." >&2
         return 0
