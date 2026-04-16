@@ -73,6 +73,7 @@ main() {
     update_oaf_deconfig
     add_timecontrol
     add_quickfile
+    add_tailscale_community
     update_lucky
     fix_rust_compile_error
     update_smartdns
