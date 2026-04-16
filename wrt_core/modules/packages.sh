@@ -188,7 +188,7 @@ add_tailscale_community() {
     echo "正在添加 luci-app-tailscale-community..."
     rm -rf "$tailscalec_dir" 2>/dev/null
 
-    if ! git clone --depth 1 "$repo_url" "$adguardhome_dir"; then
+    if ! git clone --depth 1 "$repo_url" "$tailscalec_dir"; then
         echo "错误：从 $repo_url 克隆 luci-app-tailscale-community 仓库失败" >&2
         exit 1
     fi
