@@ -181,11 +181,11 @@ update_adguardhome() {
     fi
 }
 
-update_tailscale_community() {
+add_tailscale_community() {
     local tailscalec_dir="$BUILD_DIR/package/luci-app-tailscale-community"
     local repo_url="https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community.git"
 
-    echo "正在更新 luci-app-tailscale-community..."
+    echo "正在添加 luci-app-tailscale-community..."
     rm -rf "$tailscalec_dir" 2>/dev/null
 
     if ! git clone --depth 1 "$repo_url" "$adguardhome_dir"; then
