@@ -181,6 +181,19 @@ update_adguardhome() {
     fi
 }
 
+update_tailscale_community() {
+    local tailscalec_dir="$BUILD_DIR/package/luci-app-tailscale-community"
+    local repo_url="https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community.git"
+
+    echo "正在更新 luci-app-tailscale-community..."
+    rm -rf "$tailscalec_dir" 2>/dev/null
+
+    if ! git clone --depth 1 "$repo_url" "$adguardhome_dir"; then
+        echo "错误：从 $repo_url 克隆 luci-app-tailscale-community 仓库失败" >&2
+        exit 1
+    fi
+}
+
 update_lucky() {
     local lucky_repo_url="https://github.com/gdy666/luci-app-lucky.git"
     local target_smpackage_dir="$BUILD_DIR/feeds/smpackage"
