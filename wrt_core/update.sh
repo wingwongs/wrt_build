@@ -74,6 +74,7 @@ main() {
     add_timecontrol
     add_quickfile
     add_tailscale_community
+    update_tailscale
     update_lucky
     fix_rust_compile_error
     update_smartdns
