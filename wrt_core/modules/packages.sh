@@ -194,6 +194,19 @@ add_tailscale_community() {
     fi
 }
 
+update_tailscale() {
+    local tailscale_dir="$BUILD_DIR/package/feeds/smpackage/tailscale"
+    local repo_url="https://github.com/GuNanOvO/openwrt-tailscale.git"
+
+    echo "正在更新 tailscale..."
+    rm -rf "$tailscale_dir" 2>/dev/null
+
+    if ! git clone --depth 1 "$repo_url" "$tailscale_dir"; then
+        echo "错误：从 $repo_url 克隆 tailscale 仓库失败" >&2
+        exit 1
+    fi
+}
+
 update_lucky() {
     local lucky_repo_url="https://github.com/gdy666/luci-app-lucky.git"
     local target_smpackage_dir="$BUILD_DIR/feeds/smpackage"
